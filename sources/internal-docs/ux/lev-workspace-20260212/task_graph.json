@@ -1,0 +1,220 @@
+{
+  "tasks": [
+    {
+      "id": "task-1",
+      "name": "Launch workspace shell",
+      "entry_state": "User opens web/tauri app and no transport connection exists",
+      "exit_state": "Workspace shell is visible with scoped project and transport status",
+      "happy_path": [
+        "Open app",
+        "Probe daemon transport capabilities",
+        "Hydrate project list and last session",
+        "Render default canvas and status indicators"
+      ],
+      "failure_modes": [
+        "Daemon unavailable -> show setup and retry flow",
+        "Protocol mismatch -> show compatibility error and safe read-only mode",
+        "No projects -> open guided project bootstrap"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "task-2",
+      "name": "Switch project scope",
+      "entry_state": "Workspace shell is loaded with at least one project",
+      "exit_state": "All panels, canvases, and context rails are scoped to selected project",
+      "happy_path": [
+        "Select project from sidebar or command palette",
+        "Checkpoint current workspace state",
+        "Hydrate selected project entities and tabs",
+        "Restore project-specific layout"
+      ],
+      "failure_modes": [
+        "Unsaved state -> explicit confirm checkpoint",
+        "Project hydration fail -> degraded mode with retry",
+        "Scope leakage -> force scoped store reset"
+      ],
+      "depends_on": ["task-1"]
+    },
+    {
+      "id": "task-3",
+      "name": "Run conversation turn",
+      "entry_state": "Connected workspace with active conversation session",
+      "exit_state": "Turn emits streamed events and renderable GenUI DSL patches",
+      "happy_path": [
+        "User submits text or voice prompt",
+        "Chat runtime streams structured events",
+        "Presenter emits DSL document/patches",
+        "Renderer host applies patches"
+      ],
+      "failure_modes": [
+        "Stream interrupted -> replay/resume control",
+        "Malformed patch -> schema error + rollback",
+        "Adapter render error -> fallback renderer and diagnostics"
+      ],
+      "depends_on": ["task-1", "task-2"]
+    },
+    {
+      "id": "task-4",
+      "name": "Complete voice duplex cycle",
+      "entry_state": "Voice mode enabled and provider configured",
+      "exit_state": "User can speak/listen in duplex mode with transcript and interruption support",
+      "happy_path": [
+        "Capture audio input",
+        "Stream STT deltas into conversation",
+        "Render response events and UI patches",
+        "Play TTS output with barge-in enabled"
+      ],
+      "failure_modes": [
+        "No local provider -> install/config flow",
+        "Latency spike -> degrade to text-first mode",
+        "Low confidence -> confirmation prompt before privileged actions"
+      ],
+      "depends_on": ["task-3"]
+    },
+    {
+      "id": "task-5",
+      "name": "Review privileged execution",
+      "entry_state": "Conversation emits execution intent requiring policy gate",
+      "exit_state": "Action is approved/denied with full policy and audit trace",
+      "happy_path": [
+        "Detect privileged intent",
+        "Open execution review sheet",
+        "Evaluate policy and lease state",
+        "Approve or deny with recorded rationale"
+      ],
+      "failure_modes": [
+        "Policy deny -> surface alternatives",
+        "Lease expired -> re-auth / renewal flow",
+        "Worker dispatch failure -> rollback and retry controls"
+      ],
+      "depends_on": ["task-3"]
+    },
+    {
+      "id": "task-6",
+      "name": "Monitor control-plane status",
+      "entry_state": "Workspace connected and background services running",
+      "exit_state": "Operator sees daemon/poly/index health with clear degradation indicators",
+      "happy_path": [
+        "Aggregate daemon, polyglot, and index metrics",
+        "Render status cards and timeline",
+        "Display active incidents and impact",
+        "Offer jump-to-diagnostics actions"
+      ],
+      "failure_modes": [
+        "Partial telemetry -> mark unknown and retain last-good values",
+        "Monitoring stream stale -> reconnect and show stale timestamp",
+        "Conflicting statuses -> require explicit source selection"
+      ],
+      "depends_on": ["task-1"]
+    },
+    {
+      "id": "task-7",
+      "name": "Diagnose and repair service failures",
+      "entry_state": "Any service enters degraded or failed state",
+      "exit_state": "Service returns to healthy or incident is escalated with context",
+      "happy_path": [
+        "Open diagnostics panel",
+        "Inspect logs/events and dependency chain",
+        "Run guided repair action",
+        "Validate post-repair health"
+      ],
+      "failure_modes": [
+        "Repair action unavailable -> show manual instructions",
+        "Repair fails -> escalate with captured diagnostics",
+        "Repeated failure -> quarantine service and alert"
+      ],
+      "depends_on": ["task-6"]
+    },
+    {
+      "id": "task-8",
+      "name": "Inspect and edit config safely",
+      "entry_state": "User opens configuration tooling",
+      "exit_state": "Resolved config and provenance are visible; updates respect scope policies",
+      "happy_path": [
+        "Load merged config by scope",
+        "Show provenance for each key",
+        "Apply scoped edits",
+        "Persist and verify effective config"
+      ],
+      "failure_modes": [
+        "Unauthorized scope write -> block and explain",
+        "Invalid key/schema -> fail-fast with validator output",
+        "Conflict resolution failure -> preserve old state and show diff"
+      ],
+      "depends_on": ["task-1"]
+    },
+    {
+      "id": "task-9",
+      "name": "Track validation gate outcomes",
+      "entry_state": "Execution/release workflow reaches quality gate checkpoints",
+      "exit_state": "Gate status is visible with pass/fail evidence and remediation",
+      "happy_path": [
+        "Run configured validation checks",
+        "Collect quality gate and architecture pass results",
+        "Render scorecard and evidence links",
+        "Block risky execution when mandatory gates fail"
+      ],
+      "failure_modes": [
+        "Validator timeout -> mark inconclusive and require retry",
+        "Missing evidence -> mark gate as fail",
+        "Conflicting gate results -> require manual adjudication"
+      ],
+      "depends_on": ["task-5", "task-6", "task-8"]
+    },
+    {
+      "id": "task-10",
+      "name": "Manage worker waves",
+      "entry_state": "Remote workers are requested for multi-task execution",
+      "exit_state": "Worker waves are dispatched, monitored, and recoverable",
+      "happy_path": [
+        "Create worker wave",
+        "Assign tasks and constraints",
+        "Track per-worker lifecycle and approvals",
+        "Complete wave and persist outcomes"
+      ],
+      "failure_modes": [
+        "Worker crash -> auto-retry or reassign",
+        "Approval timeout -> pause wave and notify",
+        "Policy violation -> cancel affected workers"
+      ],
+      "depends_on": ["task-5", "task-6"]
+    },
+    {
+      "id": "task-11",
+      "name": "Switch renderer adapter",
+      "entry_state": "Current scene is active under one renderer adapter",
+      "exit_state": "Scene is re-rendered under selected adapter with parity checks",
+      "happy_path": [
+        "Select adapter",
+        "Reinitialize renderer host",
+        "Replay current DSL scene",
+        "Run visual and schema parity checks"
+      ],
+      "failure_modes": [
+        "Capability mismatch -> show unsupported features",
+        "Theme token mismatch -> fail-fast and block switch",
+        "Parity drift -> open side-by-side diff"
+      ],
+      "depends_on": ["task-3", "task-9"]
+    },
+    {
+      "id": "task-12",
+      "name": "Inspect index and search stack",
+      "entry_state": "User opens search/index console",
+      "exit_state": "Search is executed with backend visibility and health context",
+      "happy_path": [
+        "Run query against configured backends",
+        "Display backend participation and latency",
+        "Show index freshness and source provenance",
+        "Pin result to project context"
+      ],
+      "failure_modes": [
+        "Backend unavailable -> fallback with warning",
+        "Stale index -> trigger refresh workflow",
+        "Source mismatch -> flag provenance conflict"
+      ],
+      "depends_on": ["task-1", "task-6"]
+    }
+  ]
+}

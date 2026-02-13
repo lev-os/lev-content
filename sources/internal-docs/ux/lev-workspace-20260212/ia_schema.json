@@ -1,0 +1,122 @@
+{
+  "entities": [
+    {
+      "name": "Project",
+      "attributes": ["id", "name", "health", "active_agents", "layout_profile", "default_mode"],
+      "actions": ["switch", "configure", "archive", "resume"]
+    },
+    {
+      "name": "WorkspaceSession",
+      "attributes": ["id", "state", "active_project_id", "active_tabs", "cognitive_layer"],
+      "actions": ["resume", "checkpoint", "close", "restore"]
+    },
+    {
+      "name": "Conversation",
+      "attributes": ["session_id", "messages", "stream_state", "provider", "latency_ms"],
+      "actions": ["send_turn", "interrupt", "retry", "pin"]
+    },
+    {
+      "name": "VoiceChannel",
+      "attributes": ["mode", "stt_provider", "tts_provider", "duplex_state", "confidence"],
+      "actions": ["start", "stop", "mute", "reconfigure"]
+    },
+    {
+      "name": "Canvas",
+      "attributes": ["canvas_type", "entity_id", "renderer_adapter", "dsl_scene_id"],
+      "actions": ["mount", "focus", "split", "detach"]
+    },
+    {
+      "name": "GenUIDocument",
+      "attributes": ["schema_version", "patches", "theme", "render_status", "validation_result"],
+      "actions": ["validate", "apply_patch", "rollback", "inspect"]
+    },
+    {
+      "name": "ExecutionRequest",
+      "attributes": ["id", "risk_level", "policy_decision", "lease_state", "worker_status"],
+      "actions": ["request_approval", "dispatch", "cancel", "audit"]
+    },
+    {
+      "name": "DaemonTransport",
+      "attributes": ["protocol", "connection_state", "endpoint", "capabilities", "last_heartbeat"],
+      "actions": ["connect", "reconnect", "downgrade", "diagnose"]
+    },
+    {
+      "name": "SystemHealth",
+      "attributes": ["daemon_status", "poly_status", "index_status", "incident_count"],
+      "actions": ["refresh", "acknowledge_incident", "open_diagnostics"]
+    },
+    {
+      "name": "RepairAction",
+      "attributes": ["id", "target", "strategy", "status", "result"],
+      "actions": ["dry_run", "execute", "rollback", "escalate"]
+    },
+    {
+      "name": "ConfigScope",
+      "attributes": ["scope", "path", "key", "effective_value", "source"],
+      "actions": ["inspect", "edit", "validate", "restore_default"]
+    },
+    {
+      "name": "GateResult",
+      "attributes": ["gate_name", "status", "evidence_refs", "run_at", "severity"],
+      "actions": ["view_evidence", "recheck", "waive_with_reason"]
+    },
+    {
+      "name": "WorkerWave",
+      "attributes": ["wave_id", "workers", "status", "approvals_pending", "failure_count"],
+      "actions": ["dispatch", "pause", "retry_failed", "complete"]
+    },
+    {
+      "name": "IndexQuery",
+      "attributes": ["query", "backends", "latency", "result_count", "freshness"],
+      "actions": ["run", "refine", "pin_result", "refresh_index"]
+    }
+  ],
+  "relationships": [
+    {"from": "Project", "to": "WorkspaceSession", "type": "has_many"},
+    {"from": "WorkspaceSession", "to": "Conversation", "type": "has_many"},
+    {"from": "WorkspaceSession", "to": "Canvas", "type": "has_many"},
+    {"from": "Conversation", "to": "GenUIDocument", "type": "has_many"},
+    {"from": "Conversation", "to": "ExecutionRequest", "type": "has_many"},
+    {"from": "WorkspaceSession", "to": "VoiceChannel", "type": "has_one"},
+    {"from": "WorkspaceSession", "to": "DaemonTransport", "type": "has_one"},
+    {"from": "WorkspaceSession", "to": "SystemHealth", "type": "has_one"},
+    {"from": "SystemHealth", "to": "RepairAction", "type": "has_many"},
+    {"from": "WorkspaceSession", "to": "ConfigScope", "type": "has_many"},
+    {"from": "WorkspaceSession", "to": "GateResult", "type": "has_many"},
+    {"from": "ExecutionRequest", "to": "WorkerWave", "type": "has_one"},
+    {"from": "WorkspaceSession", "to": "IndexQuery", "type": "has_many"},
+    {"from": "Canvas", "to": "GenUIDocument", "type": "has_one"}
+  ],
+  "navigation": {
+    "primary_expanded": [
+      "WorkspaceShell",
+      "ConversationCanvas",
+      "ExecutionReview",
+      "VoiceControl",
+      "SystemStatus",
+      "DiagnosticsAndRepair",
+      "ConfigInspector",
+      "ValidationGateBoard",
+      "WorkerWaveControl",
+      "IndexAndSearchConsole",
+      "RendererDebugView",
+      "AuditTimeline"
+    ],
+    "mvp_reduced": [
+      "WorkspaceShell",
+      "ConversationCanvas",
+      "ExecutionReview",
+      "SystemStatus",
+      "VoiceControl",
+      "ConfigInspector"
+    ],
+    "secondary": [
+      "TransportDiagnostics",
+      "AdapterSettings",
+      "EntityInspector",
+      "GateEvidenceViewer",
+      "WorkerCrashRecovery",
+      "PolicyProvenanceViewer"
+    ]
+  }
+}

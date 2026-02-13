@@ -1,0 +1,61 @@
+{
+  "request_terms": [
+    "adapter",
+    "app",
+    "chat",
+    "custom",
+    "daemon",
+    "docs",
+    "dsl",
+    "duplex",
+    "for",
+    "gate",
+    "genui",
+    "host",
+    "inbox",
+    "lev",
+    "lev-ui",
+    "out",
+    "polyglot",
+    "renderer",
+    "runtime",
+    "tauri",
+    "thesis",
+    "transport",
+    "universal",
+    "using",
+    "voice",
+    "web"
+  ],
+  "candidates": [
+    {
+      "path": "/Users/jean-patricksmith/.agents/skills-db/thinking/patterns/ambiguity-effect/SKILL.md"
+    },
+    {
+      "path": "/Users/jean-patricksmith/.agents/skills-db/thinking/patterns/switching-costs/SKILL.md"
+    },
+    {
+      "path": "/Users/jean-patricksmith/.agents/skills-db/thinking/patterns/poppers-falsifiability/SKILL.md"
+    },
+    {
+      "path": "/Users/jean-patricksmith/.agents/skills-db/thinking/patterns/ansoff-matrix/SKILL.md"
+    },
+    {
+      "path": "/Users/jean-patricksmith/.agents/skills-db/thinking/patterns/pricing-strategy-models/SKILL.md"
+    },
+    {
+      "path": "/Users/jean-patricksmith/.agents/skills-db/thinking/patterns/laws-of-ux/SKILL.md"
+    },
+    {
+      "path": "/Users/jean-patricksmith/.agents/skills-db/thinking/patterns/fermi-estimation/SKILL.md"
+    },
+    {
+      "path": "/Users/jean-patricksmith/.agents/skills-db/thinking/patterns/good-strategy-bad-strategy/SKILL.md"
+    }
+  ],
+  "selected": [
+    "/Users/jean-patricksmith/.agents/skills-db/thinking/patterns/ambiguity-effect/SKILL.md",
+    "/Users/jean-patricksmith/.agents/skills-db/thinking/patterns/switching-costs/SKILL.md",
+    "/Users/jean-patricksmith/.agents/skills-db/thinking/patterns/poppers-falsifiability/SKILL.md"
+  ]
+}

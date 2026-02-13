@@ -1,0 +1,32 @@
+problem:
+  statement: "Lev needs a single project-first workspace that is chat+voice native, renderer-adapter driven (Thesys now, AgentPing renderer later), and operationally transparent across daemon/poly/index/policy surfaces without collapsing chat and execution into one unsafe plane."
+  for_whom: "Leviathan operators, builders, and collaborators running multi-project, multi-agent work across web/tauri first and later desktop/mobile surfaces"
+  constraints:
+    - "Web app ships first and must be compatible with Tauri + web deployment."
+    - "Custom GenUI DSL is canonical contract; renderer adapters are swappable implementations."
+    - "Thesys is runtime renderer adapter only, not orchestration/backend transport."
+    - "Chat-plane and exec-plane are separate bounded contexts."
+    - "Transport model aligns with polyglot + daemon architecture (HTTP, WebSocket, gRPC)."
+    - "Voice mode supports duplex operation with local-model-first providers."
+    - "Execution remains deny-by-default, lease/policy-gated, and auditable."
+    - "UI must expose docs/design + docs/specs architecture concerns (daemon, index, config, repair, validation gates)."
+  success_criteria:
+    - "Expanded UX inventory captures core operational surfaces: status, diagnostics, policy, repair, workers, index, config, gates."
+    - "Reduced MVP screen set is explicitly derived from the expanded inventory with no architectural contradiction."
+    - "Renderer adapter can switch (Thesys -> AgentPing renderer) without rewriting chat/runtime layers."
+    - "Chat-plane and exec-plane boundaries are explicit in IA, FSM transitions, and approval flows."
+    - "Validation and architecture gates from `.lev/validation-gates.yaml` are represented as UI acceptance checks."
+    - "Voice duplex can be enabled/disabled independently, with clear fallback states and recovery UX."
+  scope:
+    in:
+      - "Expanded screen architecture for operations + collaboration + rendering."
+      - "Reduced MVP screen package for first implementation."
+      - "GenUI DSL renderer-host interaction model and adapter swapping semantics."
+      - "Voice duplex lifecycle including install, degraded mode, and recovery."
+      - "Project-first navigation, tabs, canvas modes, daemon/poly/index visibility."
+      - "Config provenance, policy decisions, quality gates, and repair workflows."
+    out:
+      - "Pixel-perfect visual design or final brand system."
+      - "Implementing daemon/poly transport internals in this UX pass."
+      - "Replacing `lev exec` runtime logic with chat runtime logic."
+      - "Native iOS/macOS implementation specifics (covered later by shared contracts)."

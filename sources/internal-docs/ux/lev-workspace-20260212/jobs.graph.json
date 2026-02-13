@@ -1,0 +1,67 @@
+{
+  "jobs": [
+    {
+      "id": "job-1",
+      "statement": "When I am running multiple active projects and agents, I want a single project-scoped workspace with adaptable canvases and tabs, so I can stay oriented and reduce context-switch overhead.",
+      "type": "functional",
+      "triggers": ["project switch", "multi-agent session", "daemon status change"],
+      "user_types": ["power-user engineer", "operator"]
+    },
+    {
+      "id": "job-2",
+      "statement": "When I talk to Lev in voice or text, I want the system to respond with structured interactive UI instead of raw logs, so I can review and act faster.",
+      "type": "functional",
+      "triggers": ["voice query", "chat query", "tool result available"],
+      "user_types": ["voice-first user", "mobile/tablet operator"]
+    },
+    {
+      "id": "job-3",
+      "statement": "When a privileged action is requested, I want clear policy-gated checkpoints and approvals, so I can trust execution without accidental destructive behavior.",
+      "type": "functional",
+      "triggers": ["exec request", "policy deny", "lease required"],
+      "user_types": ["security-conscious operator", "team lead"]
+    },
+    {
+      "id": "job-4",
+      "statement": "When renderer technology changes (Thesys to AgentPing renderer), I want UI behavior to remain stable through a shared DSL contract, so we can evolve implementation without UX regression.",
+      "type": "functional",
+      "triggers": ["adapter switch", "theme switch", "platform switch"],
+      "user_types": ["platform engineer", "design system owner"]
+    },
+    {
+      "id": "job-5",
+      "statement": "When daemon, index, and transport health drift, I want a live control-plane status view with diagnostics and repair actions, so I can recover quickly without terminal spelunking.",
+      "type": "functional",
+      "triggers": ["health degradation", "connection drops", "failed background jobs"],
+      "user_types": ["operator", "on-call maintainer"]
+    },
+    {
+      "id": "job-6",
+      "statement": "When config behavior is unexpected, I want scope-by-scope provenance and safe edit controls, so I can fix settings without creating hidden side effects.",
+      "type": "functional",
+      "triggers": ["unexpected behavior", "scope conflict", "startup misconfiguration"],
+      "user_types": ["platform engineer", "power-user engineer"]
+    },
+    {
+      "id": "job-7",
+      "statement": "When I evaluate system trustworthiness, I want explicit validation gate outcomes and architecture pass status, so I can decide if execution should proceed.",
+      "type": "functional",
+      "triggers": ["pre-exec review", "release prep", "incident triage"],
+      "user_types": ["team lead", "security-conscious operator"]
+    },
+    {
+      "id": "job-8",
+      "statement": "When coordinating remote workers, I want wave-level visibility with approvals and recovery controls, so I can manage throughput and failures safely.",
+      "type": "functional",
+      "triggers": ["worker dispatch", "approval pending", "worker crash"],
+      "user_types": ["operator", "program manager"]
+    },
+    {
+      "id": "job-9",
+      "statement": "When I feel overloaded by complexity, I want layered views and mode-specific summaries, so I can stay in flow without losing critical context.",
+      "type": "emotional",
+      "triggers": ["high task fanout", "many open tabs", "frequent mode switching"],
+      "user_types": ["solo founder/operator", "multi-project manager"]
+    }
+  ]
+}

@@ -1,0 +1,242 @@
+{
+  "validation_profile": {
+    "source": ".lev/validation-gates.yaml",
+    "mandatory_checks": [
+      "poly_compliance",
+      "xdg_compliance",
+      "file_routing",
+      "package_validator",
+      "flowmind_validators",
+      "deterministic_linting",
+      "perf_scaling",
+      "security",
+      "prompt_injection"
+    ],
+    "quality_gates": [
+      "task_analysis",
+      "adversarial_review",
+      "acceptance_criteria",
+      "testing_pyramid",
+      "smoke_test"
+    ],
+    "architecture_passes": [
+      "L1_layout_coherence",
+      "L2_contract_compliance",
+      "L3_integration_validation"
+    ]
+  },
+  "screens": [
+    {
+      "id": "screen-workspace-shell",
+      "name": "WorkspaceShell",
+      "states": ["idle", "loading", "empty", "error", "success"],
+      "transitions": [
+        {"from": "idle", "event": "app_open", "to": "loading"},
+        {"from": "loading", "event": "transport_connected", "to": "success"},
+        {"from": "loading", "event": "no_projects", "to": "empty"},
+        {"from": "loading", "event": "transport_failed", "to": "error"},
+        {"from": "error", "event": "retry_connect", "to": "loading"}
+      ],
+      "feedback": ["connection_badge", "project_scope_chip", "skeleton_shell"],
+      "acceptance_checks": [
+        "Shows daemon/poly/index status within 1 second of connect.",
+        "Project switch never leaks previous project entities.",
+        "If transport fails, user sees retry and diagnostics CTA."
+      ]
+    },
+    {
+      "id": "screen-conversation-canvas",
+      "name": "ConversationCanvas",
+      "states": ["idle", "loading", "empty", "error", "success"],
+      "transitions": [
+        {"from": "idle", "event": "send_turn", "to": "loading"},
+        {"from": "loading", "event": "stream_first_delta", "to": "success"},
+        {"from": "loading", "event": "stream_timeout", "to": "error"},
+        {"from": "success", "event": "new_turn", "to": "loading"},
+        {"from": "error", "event": "replay_stream", "to": "loading"}
+      ],
+      "feedback": ["stream_cursor", "dsl_patch_indicator", "retry_action"],
+      "acceptance_checks": [
+        "Text and GenUI events render in causal order by turn sequence.",
+        "Malformed DSL patch triggers rollback and visible schema error.",
+        "Interrupting a turn halts stream within 500ms."
+      ]
+    },
+    {
+      "id": "screen-execution-review",
+      "name": "ExecutionReview",
+      "states": ["idle", "loading", "empty", "error", "success"],
+      "transitions": [
+        {"from": "idle", "event": "privileged_action_detected", "to": "loading"},
+        {"from": "loading", "event": "policy_requires_approval", "to": "success"},
+        {"from": "loading", "event": "policy_denied", "to": "error"},
+        {"from": "success", "event": "approve_and_dispatch", "to": "loading"},
+        {"from": "loading", "event": "worker_complete", "to": "success"}
+      ],
+      "feedback": ["risk_badge", "approval_sheet", "audit_log_tail"],
+      "acceptance_checks": [
+        "No privileged action dispatches without explicit approve intent.",
+        "Policy deny path always includes reason and next-safe options.",
+        "Decision is written to audit timeline with correlation id."
+      ]
+    },
+    {
+      "id": "screen-voice-control",
+      "name": "VoiceControl",
+      "states": ["idle", "loading", "empty", "error", "success"],
+      "transitions": [
+        {"from": "idle", "event": "enable_voice", "to": "loading"},
+        {"from": "loading", "event": "voice_ready", "to": "success"},
+        {"from": "loading", "event": "missing_provider", "to": "empty"},
+        {"from": "loading", "event": "audio_failure", "to": "error"},
+        {"from": "success", "event": "barge_in", "to": "loading"}
+      ],
+      "feedback": ["voice_vu_meter", "transcript_delta", "tts_playback_indicator"],
+      "acceptance_checks": [
+        "Local provider status is visible before recording starts.",
+        "Barge-in interrupt stops playback and resumes listening immediately.",
+        "If provider missing, install path is one click from empty state."
+      ]
+    },
+    {
+      "id": "screen-system-status",
+      "name": "SystemStatus",
+      "states": ["idle", "loading", "empty", "error", "success"],
+      "transitions": [
+        {"from": "idle", "event": "status_poll_tick", "to": "loading"},
+        {"from": "loading", "event": "status_received", "to": "success"},
+        {"from": "loading", "event": "status_unavailable", "to": "error"},
+        {"from": "success", "event": "service_degraded", "to": "error"},
+        {"from": "error", "event": "status_refresh", "to": "loading"}
+      ],
+      "feedback": ["health_cards", "incident_counter", "latency_sparkline"],
+      "acceptance_checks": [
+        "Daemon, poly, and index each expose independent health state.",
+        "Degraded states show timestamp and impacted capability.",
+        "Unknown telemetry is labeled unknown, never healthy."
+      ]
+    },
+    {
+      "id": "screen-diagnostics-repair",
+      "name": "DiagnosticsAndRepair",
+      "states": ["idle", "loading", "empty", "error", "success"],
+      "transitions": [
+        {"from": "idle", "event": "open_incident", "to": "loading"},
+        {"from": "loading", "event": "diagnostics_ready", "to": "success"},
+        {"from": "success", "event": "run_repair", "to": "loading"},
+        {"from": "loading", "event": "repair_failed", "to": "error"},
+        {"from": "error", "event": "escalate_incident", "to": "success"}
+      ],
+      "feedback": ["dependency_chain", "repair_actions", "post_repair_checklist"],
+      "acceptance_checks": [
+        "Repair actions require explicit target and strategy confirmation.",
+        "Post-repair validation runs automatically and reports pass/fail.",
+        "Failed repair offers escalation with captured diagnostics."
+      ]
+    },
+    {
+      "id": "screen-config-inspector",
+      "name": "ConfigInspector",
+      "states": ["idle", "loading", "empty", "error", "success"],
+      "transitions": [
+        {"from": "idle", "event": "open_config", "to": "loading"},
+        {"from": "loading", "event": "config_loaded", "to": "success"},
+        {"from": "success", "event": "edit_key", "to": "loading"},
+        {"from": "loading", "event": "validation_failed", "to": "error"},
+        {"from": "error", "event": "restore_previous", "to": "success"}
+      ],
+      "feedback": ["scope_tabs", "provenance_diff", "schema_error_panel"],
+      "acceptance_checks": [
+        "Every effective key shows source scope and file path.",
+        "Unauthorized scope writes are blocked before save.",
+        "Schema-invalid writes fail fast with line-level feedback."
+      ]
+    },
+    {
+      "id": "screen-validation-gate-board",
+      "name": "ValidationGateBoard",
+      "states": ["idle", "loading", "empty", "error", "success"],
+      "transitions": [
+        {"from": "idle", "event": "run_gate_suite", "to": "loading"},
+        {"from": "loading", "event": "all_gates_passed", "to": "success"},
+        {"from": "loading", "event": "gate_failed", "to": "error"},
+        {"from": "error", "event": "recheck_failed_gate", "to": "loading"}
+      ],
+      "feedback": ["gate_scoreboard", "evidence_links", "severity_badges"],
+      "acceptance_checks": [
+        "Quality gate order follows configured sequence.",
+        "Mandatory checks cannot be marked pass without evidence.",
+        "Failed critical gates block execution actions."
+      ]
+    },
+    {
+      "id": "screen-worker-wave-control",
+      "name": "WorkerWaveControl",
+      "states": ["idle", "loading", "empty", "error", "success"],
+      "transitions": [
+        {"from": "idle", "event": "create_wave", "to": "loading"},
+        {"from": "loading", "event": "wave_running", "to": "success"},
+        {"from": "success", "event": "worker_crashed", "to": "error"},
+        {"from": "error", "event": "retry_or_reassign", "to": "loading"},
+        {"from": "success", "event": "wave_completed", "to": "success"}
+      ],
+      "feedback": ["wave_timeline", "worker_grid", "approval_queue"],
+      "acceptance_checks": [
+        "Each worker state change is timestamped and attributable.",
+        "Approval timeouts pause wave and notify operator.",
+        "Crash recovery preserves completed work and retries only failed units."
+      ]
+    },
+    {
+      "id": "screen-index-search-console",
+      "name": "IndexAndSearchConsole",
+      "states": ["idle", "loading", "empty", "error", "success"],
+      "transitions": [
+        {"from": "idle", "event": "run_query", "to": "loading"},
+        {"from": "loading", "event": "results_ready", "to": "success"},
+        {"from": "loading", "event": "backend_error", "to": "error"},
+        {"from": "error", "event": "retry_with_fallback", "to": "loading"}
+      ],
+      "feedback": ["backend_status_row", "result_list", "freshness_badges"],
+      "acceptance_checks": [
+        "UI lists participating backends and per-backend latency.",
+        "Stale index state is visible before result consumption.",
+        "Fallback path is explicit when a backend is down."
+      ]
+    },
+    {
+      "id": "screen-renderer-debug",
+      "name": "RendererDebugView",
+      "states": ["idle", "loading", "empty", "error", "success"],
+      "transitions": [
+        {"from": "idle", "event": "switch_adapter", "to": "loading"},
+        {"from": "loading", "event": "adapter_ready", "to": "success"},
+        {"from": "loading", "event": "patch_validation_failed", "to": "error"},
+        {"from": "error", "event": "rollback_patch", "to": "success"}
+      ],
+      "feedback": ["schema_status", "patch_diff", "compatibility_report"],
+      "acceptance_checks": [
+        "Adapter switch replays current scene without data loss.",
+        "Theme token mismatch blocks render and provides remediation.",
+        "Parity report shows deltas against previous adapter."
+      ]
+    }
+  ],
+  "mvp_screen_subset": [
+    "WorkspaceShell",
+    "ConversationCanvas",
+    "ExecutionReview",
+    "SystemStatus",
+    "VoiceControl",
+    "ConfigInspector"
+  ],
+  "accessibility": {
+    "requirements": [
+      "All voice controls keyboard and screen-reader accessible.",
+      "Live-region announcements for stream and gate state changes.",
+      "Color-independent severity indicators for policy/gate outcomes.",
+      "Captions/transcripts available for all voice responses.",
+      "Focus trapping and escape handling in approval and repair overlays."
+    ]
+  }
+}
