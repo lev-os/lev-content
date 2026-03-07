@@ -69,7 +69,7 @@ todos:
     content: Write docs/impl/12-shadow-llm-context.md -- Shadow LLM weaver, classifier cascade, JIT instructions. Extends docs/06-core-flowmind.md parser-at-tip.
     status: pending
   - id: prd-13-community
-    content: Write docs/impl/13-community-ecosystem.md -- AgentPing, agent-lease, lev-portable, ClawCast, KinglyAssistant submodules.
+    content: Write docs/impl/13-community-ecosystem.md -- AgentPing, agentguard, lev-portable, ClawCast, KinglyAssistant submodules.
     status: pending
   - id: prd-14-selflearn
     content: Write docs/impl/14-self-learning-os.md -- 7-phase pipeline from .lev/pm/designs/. Extends docs/07-core-lifecycle.md event system.
@@ -352,7 +352,7 @@ DOMAIN LAYER (Lev graph primitives -- existing, from _inbox/05 + 01-architecture
 
 **Extends existing.**
 
-- **Existing**: AgentPing v2 (production, 865 files), agent-lease v3.3.0, lev-portable v1.0.0, template-community-package
+- **Existing**: AgentPing v2 (production, 865 files), agentguard v3.3.0, lev-portable v1.0.0, template-community-package
 - **Action**: Add ClawCast as submodule -> `community/clawcast/`
 - **Action**: Add KinglyAssistant as submodule -> `community/kingly-assistant/`
 - **From ClawCast**: Human agent representation patterns (leaderboard, inference, collaborative)
@@ -1542,7 +1542,7 @@ todos:
   content: Write docs/impl/12-shadow-llm-context.md -- Shadow LLM weaver, classifier cascade, JIT instructions, bidirectional whisper
   status: pending
 - id: prd-13-community
-  content: Write docs/impl/13-community-ecosystem.md -- AgentPing, agent-lease, lev-portable, ClawCast submodule, KinglyAssistant submodule
+  content: Write docs/impl/13-community-ecosystem.md -- AgentPing, agentguard, lev-portable, ClawCast submodule, KinglyAssistant submodule
   status: pending
 - id: prd-14-selflearn
   content: Write docs/impl/14-self-learning-os.md -- 7-phase pipeline, telemetry, indexing, JobType, weights, agentic compiler, overlays
@@ -1760,7 +1760,7 @@ todos:
 
 **Extends existing.**
 
-- **Existing**: AgentPing v2 (production, 865 files), agent-lease v3.3.0, lev-portable v1.0.0, template-community-package
+- **Existing**: AgentPing v2 (production, 865 files), agentguard v3.3.0, lev-portable v1.0.0, template-community-package
 - **Action**: Add ClawCast as submodule -> `community/clawcast/`
 - **Action**: Add KinglyAssistant as submodule -> `community/kingly-assistant/`
 - **From ClawCast**: Human agent representation patterns (leaderboard, inference, collaborative)

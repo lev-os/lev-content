@@ -138,7 +138,7 @@ Crate-local docs exist per AGENTS.md; **no system-wide feature index** for Rust 
 |---------|------------|
 | **agentping** | spec-agentping, spec-agentping-remote, spec-agentping-surfaces |
 | **lev-portable** | — |
-| **agent-lease** | Architecture mentions |
+| **agentguard** | Architecture mentions |
 | **kingly-assistant** | — |
 | **clawcast** | — |
 | **lev-content** | — |

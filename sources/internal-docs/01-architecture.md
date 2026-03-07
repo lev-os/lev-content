@@ -795,15 +795,15 @@ This section resolves ownership drift across poly runtime bindings and daemon se
 | Path | Current role in code | Drift vs target |
 |---|---|---|
 | `core/polyglot-runners/` | Registry builder, PMDaemon adapter, daemon lifecycle orchestration, SDK command registry | Correct owner for binding + lifecycle |
-| `core/daemons/` | Service daemons (`lev-learner`, `parallel-research`) plus transitional legacy daemon logic to migrate | Decomposition still incomplete |
+| `core/daemon/` | Service daemons (`lev-learner`, `parallel-research`) plus transitional legacy daemon logic to migrate | Decomposition still incomplete |
 | `core/index/src/daemon/` | Local HTTP daemon and client fallback logic for search | Service behavior exists outside poly declarations |
 | Poly shorthand namespace | Proto-only surface (`trace.proto`) | Not a runtime ownership target |
 
 ### Locked Ownership Boundary
 
 - `core/polyglot-runners/` owns platform-level process lifecycle and binding (`poly.sdk`, `poly.daemon`, `poly.cli`, `poly.mcp`).
-- `core/daemons/` is the runtime home for daemon applications/services.
-- Legacy daemon logic currently outside `core/daemons/` must be migrated there (or into owning plugins) and removed from legacy locations.
+- `core/daemon/` is the runtime home for daemon applications/services.
+- Legacy daemon logic currently outside `core/daemon/` must be migrated there (or into owning plugins) and removed from legacy locations.
 - Poly shorthand namespace is reserved for proto/alias usage, not an implementation home for new runtime logic.
 
 ### Convergence Rules
@@ -836,7 +836,7 @@ This section resolves ownership drift across poly runtime bindings and daemon se
 │   └── ...
 ├── community/               # OSS ecosystem packages (things lev PUBLISHES)
 │   ├── lev-portable/       # Architectural thinking toolkit (skill)
-│   ├── agent-lease/        # Git hooks lock/lease pattern (CLI tool)
+│   ├── agentguard/         # Git hooks lock/lease pattern (CLI tool)
 │   └── agentping/          # Agent-human interaction protocol (tool)
 ├── core/                    # Framework internals
 │   ├── harness/            # Hex execution engine

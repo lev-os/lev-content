@@ -12,13 +12,13 @@ origin: cursor-plan
 ## Decisions
 
 - **Skill-first**: Create the UBS skill and validator now. Git hook wiring deferred.
-- **agent-lease stays dead config for now**: `.agent-lease.json` gets the UBS runner added, but hooks won't fire until a future task wires agent-lease into `.git/hooks/`.
-- **agent-lease becomes a workspace member**: Add `community/agent-lease` to `pnpm-workspace.yaml` so it gets a bin link and can be invoked via `pnpm exec agent-lease`.
+- **agentguard stays dead config for now**: `.agentguard.json` gets the UBS runner added, but hooks won't fire until a future task wires agentguard into `.git/hooks/`.
+- **agentguard becomes a workspace member**: Add `community/agentguard` to `pnpm-workspace.yaml` so it gets a bin link and can be invoked via `pnpm exec agentguard`.
 
-## agent-lease Status (as investigated)
+## agentguard Status (as investigated)
 
-- Binary works: `node community/agent-lease/bin/agent-lease.js status` runs correctly
-- `.agent-lease.json` is valid but nothing reads it (no git hook integration)
+- Binary works: `node community/agentguard/bin/agentguard.js status` runs correctly
+- `.agentguard.json` is valid but nothing reads it (no git hook integration)
 - Not in pnpm workspace; has its own npm `package-lock.json`
 - Validator scripts all exist and pass (with minor grep regex warnings)
 - `lev-code-review.sh` silently fails on large diffs ("Argument list too long" with claude CLI)
@@ -96,9 +96,9 @@ exit "$EXIT_CODE"
 
 ---
 
-## 3. Register in Agent-Lease Config
+## 3. Register in AgentGuard Config
 
-**File:** `[.agent-lease.json](.agent-lease.json)`
+**File:** `[.agentguard.json](.agentguard.json)`
 
 Add after the existing `namespace` runner:
 
@@ -110,11 +110,11 @@ Add after the existing `namespace` runner:
 }
 ```
 
-Note: This is prep config. It won't fire until agent-lease is wired into git hooks (deferred).
+Note: This is prep config. It won't fire until agentguard is wired into git hooks (deferred).
 
 ---
 
-## 4. Add agent-lease to pnpm Workspace
+## 4. Add agentguard to pnpm Workspace
 
 **File:** `[pnpm-workspace.yaml](pnpm-workspace.yaml)`
 
@@ -122,12 +122,12 @@ Add under the existing sections:
 
 ```yaml
 # Community packages (submodules)
-- 'community/agent-lease'
+- 'community/agentguard'
 ```
 
-Then run `pnpm install` to link the bin entry. After this, `pnpm exec agent-lease status` will work from the repo root.
+Then run `pnpm install` to link the bin entry. After this, `pnpm exec agentguard status` will work from the repo root.
 
-Note: The existing `package-lock.json` inside `community/agent-lease/` should be removed or gitignored once pnpm manages it.
+Note: The existing `package-lock.json` inside `community/agentguard/` should be removed or gitignored once pnpm manages it.
 
 ---
 
@@ -138,14 +138,14 @@ Note: The existing `package-lock.json` inside `community/agent-lease/` should be
 | Create | `~/.agents/skills/ubs-bug-scan/SKILL.md`                   |
 | Create | `~/.agents/skills/ubs-bug-scan/references/ubs-quickref.md` |
 | Create | `.lev/validators/ubs-scan.sh`                              |
-| Edit   | `.agent-lease.json` (add ubs-scan runner)                  |
-| Edit   | `pnpm-workspace.yaml` (add community/agent-lease)          |
+| Edit   | `.agentguard.json` (add ubs-scan runner)                   |
+| Edit   | `pnpm-workspace.yaml` (add community/agentguard)           |
 
 ---
 
 ## Future Work (not in scope)
 
-- Wire agent-lease into `.git/hooks/pre-commit` and `.git/hooks/pre-push`
+- Wire agentguard into `.git/hooks/pre-commit` and `.git/hooks/pre-push`
 - Fix grep regex warnings in `security-scan.sh` and `xdg-compliance.sh`
 - Fix `lev-code-review.sh` "Argument list too long" on large diffs (use temp file + truncation)
 - Add UBS step to `pr-review` skill
