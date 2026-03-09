@@ -143,7 +143,7 @@ PMDaemon manages the process lifecycle (start, stop, restart, health checks).
 
 | System | Location | Purpose | Process Model |
 |---|---|---|---|
-| **BD Task Queue** | `core/daemons/` | Polls `.beads/` for tasks, claims/completes them | Single process with timers |
+| **BD Task Queue** | `core/daemon/` | Polls `.beads/` for tasks, claims/completes them | Single process with timers |
 | **Poly Process Manager** | `core/polyglot-runners/src/daemon/` | Worker pool, queue manager, process lifecycle | Multi-process with PMDaemon |
 
 ### Target State (one system)
@@ -156,7 +156,7 @@ core/polyglot-runners/           ← THE binder (poly)
 ├── registry.yaml                ← Static daemon/binary definitions
 └── .build/registry-runtime.yaml ← Merged output
 
-core/daemons/task-queue/         ← Daemon app binds to poly
+core/daemon/task-queue/         ← Daemon app binds to poly
 ├── config.yaml                  ← NEW: declares poly.daemon (BD queue as a service)
 ├── src/daemon-core.ts           ← BD queue logic (business logic stays here)
 ├── src/queue.ts                 ← Task fetching/claiming
@@ -164,15 +164,15 @@ core/daemons/task-queue/         ← Daemon app binds to poly
 ```
 
 **The reconciliation:**
-1. `core/daemons/task-queue/` keeps its BD task queue business logic
-2. `core/daemons/task-queue/` adds a `poly.daemon` declaration in its `config.yaml`
+1. `core/daemon/task-queue/` keeps its BD task queue business logic
+2. `core/daemon/task-queue/` adds a `poly.daemon` declaration in its `config.yaml`
 3. Poly's process manager (PMDaemon) handles start/stop/restart
 4. daemon apps no longer manage their own PID file, heartbeat, or signal handlers — poly does that
 5. The daemon worker pool in `core/polyglot-runners/src/daemon/` is the platform-level process manager
-6. `core/daemons/task-queue/` is the BD-specific application that runs INSIDE a poly-managed process
+6. `core/daemon/task-queue/` is the BD-specific application that runs INSIDE a poly-managed process
 
 ```yaml
-# core/daemons/task-queue/config.yaml (NEW)
+# core/daemon/task-queue/config.yaml (NEW)
 package:
   name: task-queue
   version: 0.1.0

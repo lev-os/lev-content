@@ -126,12 +126,12 @@ Last wins. Deep merge.
 
 **SRP target**:
 - `core/polyglot-runners/`: process supervision and daemon lifecycle orchestration.
-- `core/daemons/`: daemon application/business logic ownership.
+- `core/daemon/`: daemon application/business logic ownership.
 
 **Current code reality**:
 - legacy `core/daemon/` module still contains PID/heartbeat/signal/process lifecycle code and subsystem spawning.
 - `core/polyglot-runners/` already implements PMDaemon-backed lifecycle adapters and daemon orchestration.
-- `core/daemons/` still contains legacy daemon implementations (`lev-learner`, `parallel-research`).
+- `core/daemon/` still contains legacy daemon implementations (`lev-learner`, `parallel-research`).
 
 **Convergence rule**:
 - New or migrated daemons declare lifecycle intent in `config.yaml` (`poly.daemon`) and do not own bespoke lifecycle loops.

@@ -31,11 +31,11 @@
 **SRP**: "Polyglot search orchestration" (3 words)
 
 ### Q2: daemon naming ✅
-**Decision**: `polyglot-runners/` is the process supervisor; daemon business logic lives under `core/daemons/`.
+**Decision**: `polyglot-runners/` is the process supervisor; daemon business logic lives under `core/daemon/`.
 
 **Current reconciliation target:**
 - `core/polyglot-runners/` owns lifecycle (`start/stop/restart/health`, adapter to PMDaemon).
-- `core/daemons/` is the runtime location for daemon applications/services.
+- `core/daemon/` is the runtime location for daemon applications/services.
 - legacy daemon logic is migrated into owning modules/plugins with `poly` declarations.
 
 ### Q3: watch/ location ✅
