@@ -30,7 +30,7 @@ The documentation (`docs/01-architecture.md`, `docs/design/*`, `docs/specs/*`) c
 | **core/lib** | Shared utilities: config/, fractal/, middleware/, watch/. No package.json. | **NOT DOCUMENTED** — lev-02w6 tracked packaging |
 | **core/validation** | Validators: mathematical, consensus, opposition, parliament, breakthrough bubbler. | **NOT DOCUMENTED** — lev-08of tracks validator→agent gap |
 | **core/commands** | Command registry/dispatch. | Implicit in CLI design; **no standalone doc** |
-| **core/contexts** | Universal context library. | **NOT DOCUMENTED** — Legos references it |
+| **context** | Universal context library. | **NOT DOCUMENTED** — Legos references it |
 | **core/debug** | LevLogger, debug utilities. | **NOT DOCUMENTED** |
 
 ---
@@ -39,7 +39,7 @@ The documentation (`docs/01-architecture.md`, `docs/design/*`, `docs/specs/*`) c
 
 | Plugin | Description | Doc Status |
 |--------|-------------|------------|
-| **@lev-os/codex** | LLM-first programming knowledge crystallization. Paradigms, frameworks, languages, semantic search, hexagonal architecture. | **docs/plugins/cms.md** mentions; **no codex doc** |
+| **@lev-os/codex** | LLM-first programming knowledge crystallization. Paradigms, frameworks, languages, semantic search, hexagonal architecture. | **docs/plugins/publisher.md** mentions; **no codex doc** |
 | **@lev-os/strands-tools** | Comprehensive Python tool integration and workflow automation. | **NOT DOCUMENTED** |
 | **@lev-os/gemini-executor** | Gemini-powered workflow executor with XState (Mastra-inspired). | Mentioned in core-other bypass list; **no doc** |
 | **@lev-os/workflow-orchestrator** | Bi-directional workflow orchestration — LLMs orchestrate themselves. | **NOT DOCUMENTED** |

@@ -1,4 +1,4 @@
-# Plugin: CMS
+# Plugin: Publisher
 
 > Type-driven filesystem mirroring for beads
 
@@ -6,7 +6,7 @@
 
 | Attribute | Value |
 |-----------|-------|
-| Location | `plugins/cms/` |
+| Location | `plugins/publisher/` |
 | Version | 2.0.0 |
 | Event Provider | `bd.ts`, `router.js` (via `emit()`) |
 | Event Bus | `core/events/src/events/event-bus.ts` |
@@ -102,7 +102,7 @@ BD operation
 ## API
 
 ```javascript
-import { initCmsPlugin } from './plugins/cms/cms-plugin.js'
+import { initPublisherPlugin } from './plugins/publisher/publisher-plugin.js'
 
 // At startup
 const cms = initCmsPlugin()
@@ -111,7 +111,7 @@ const cms = initCmsPlugin()
 // cms.teardown() → unsubscribe all
 
 // Direct use (no events)
-import { mirrorToFilesystem, validateBead, checkSlugCollision } from './plugins/cms/template-scaffolder.js'
+import { mirrorToFilesystem, validateBead, checkSlugCollision } from './plugins/publisher/template-scaffolder.js'
 
 mirrorToFilesystem(bead, 'proposal', '.lev/pm/proposals/')
 validateBead({ title: 'Fix build' }, 'idea')
@@ -121,7 +121,7 @@ checkSlugCollision('Fix Build', 'ideas/')
 ## Tests
 
 ```bash
-node --test plugins/cms/cms-plugin.test.js
+node --test plugins/publisher/publisher-plugin.test.js
 # 15 tests, 8 suites, 0 failures
 ```
 
