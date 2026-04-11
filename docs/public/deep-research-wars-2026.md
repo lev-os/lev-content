@@ -83,7 +83,7 @@ Open source can replicate search. Open source can replicate synthesis. Open sour
 
 Lev's approach to this problem is different from all 40+ companies above. We didn't build a search engine or a research agent. We built a **research router**.
 
-`core-timetravel` is a plugin with 12 adapters: Brave, Firecrawl, Valyu, Perplexity, Exa, Tavily, Grok, arXiv, HackerNews, ScrapECreators, and an Oracle synthesizer. Each adapter is a thin HTTP client. The router picks a strategy (quick, full, deep, max, social, academic), fans out to the right backends in parallel, and merges the results.
+`timetravel` is a plugin with 12 adapters: Brave, Firecrawl, Valyu, Perplexity, Exa, Tavily, Grok, arXiv, HackerNews, ScrapECreators, and an Oracle synthesizer. Each adapter is a thin HTTP client. The router picks a strategy (quick, full, deep, max, social, academic), fans out to the right backends in parallel, and merges the results.
 
 ```
 timetravel status

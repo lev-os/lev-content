@@ -1,0 +1,119 @@
+id: content-gtm-sprint
+name: "Constraint Engineering GTM Content Loop"
+description: |
+  Iterate manifesto pages, articles, tweets, and publishing pipeline.
+  Each tick produces one artifact. Each artifact passes adversarial review.
+  The constraint surface grows with every discovered slop pattern.
+
+# --- Tick Types ---
+tick_types:
+  - id: manifesto
+    description: "Create or iterate a manifesto /now page for a top-level theme"
+    weight: 25
+    max_consecutive: 2
+    prompt_template: |
+      Create a manifesto /now page for theme [{theme}].
+      Read the source docs listed in the PRD theme entry.
+      Generate a RenderSpec JSON at ~/.agents/levnow/{slug}.json.
+      Render with: npx tsx plugins/lev-now/src/cli.ts {json} --output {html}
+      DONE when: file exists, elements > 30, key quotes from source docs present.
+
+  - id: article
+    description: "Write or improve a long-form article"
+    weight: 30
+    max_consecutive: 3
+    prompt_template: |
+      Write article [{title}] from PRD story [{story_id}].
+      Read dna/ and docs/ sources relevant to the topic.
+      Voice: Stripe engineering blog + manifesto energy.
+      DONE when: word count >= 1200, contains C1/C2 references, no AI slop.
+
+  - id: research
+    description: "Re-read source material, identify gaps, mine new quotes"
+    weight: 15
+    requires_after: [manifesto, article]
+    min_interval: 3
+    prompt_template: |
+      Re-read source docs for theme [{theme}].
+      Compare current manifesto/articles against source material.
+      Identify: missing key concepts, unused quotes, unaddressed sections.
+      Output: gap report appended to content/ralph/progress.txt.
+
+  - id: review
+    description: "De-slopify, voice alignment, quality check"
+    weight: 15
+    requires_after: [article]
+    prompt_template: |
+      Review [{file}] for AI slop patterns and voice alignment.
+      Check: no filler adjectives, concrete numbers, signature phrases present.
+      Signature phrases: "constraints are the product", "gates = loss function",
+        "prompts converge, harnesses differentiate"
+      Edit surgically. Do not rewrite entire file.
+
+  - id: discover
+    description: "Identify new top-level themes, 3+ articles = gets own manifesto"
+    weight: 10
+    min_interval: 5
+    prompt_template: |
+      Scan content/articles/ for topic clustering.
+      If 3+ articles cover a topic not in the PRD themes list, add it.
+      Check dna/ and docs/ for themes with no articles yet.
+      Update content/ralph/prd.json with new stories.
+
+  - id: publish
+    description: "Publish to here.now, prepare for Substack"
+    weight: 5
+    requires_after: [review]
+    prompt_template: |
+      Publish [{file}] to lev.here.now using:
+      bash ~/.claude/skills/here-now/scripts/publish.sh {file} --title "{title}" --handle-path {path}
+      Update community/agentping/site/.herenow/registry.json.
+
+# --- Tick Constraints ---
+tick_constraints:
+  ordering: weighted_random
+  self_validation: false
+  max_ticks_per_session: 20
+
+# --- Adversarial Validation ---
+validation:
+  between_ticks: true
+  checks:
+    - id: no_slop
+      description: "No AI slop patterns in output"
+      command: |
+        ! grep -rEi "rapidly evolving|game-changer|in conclusion|let.s dive|in today.s world|it.s important to note" content/articles/ content/ralph/
+    - id: voice_present
+      description: "Signature phrases appear in corpus"
+      command: |
+        grep -rl "constraints are the product" content/articles/ | wc -l | awk '{exit ($1 < 5)}'
+    - id: numbers_present
+      description: "Concrete proof points in articles"
+      command: |
+        grep -rl "96%" content/articles/ | wc -l | awk '{exit ($1 < 3)}'
+    - id: dna_grounded
+      description: "Articles reference DNA constraints"
+      command: |
+        grep -rl "C1\|C2\|graph.yaml\|gates.yaml" content/articles/ | wc -l | awk '{exit ($1 < 5)}'
+  auto_escalate_after: 3
+
+# --- Schedule ---
+schedule:
+  interval: 10m
+  duration: 6h
+  circuit_breaker:
+    threshold: 3
+    action: stop
+
+# --- Execution ---
+execution:
+  adapter: claude-agent-sdk
+  model: sonnet
+  max_turns_per_tick: 15
+
+# --- Knobs ---
+knobs:
+  source_dir: "~/.agents/levnow"
+  content_dir: "content/"
+  prd_path: "content/ralph/prd.json"
+  manifesto_dir: "~/.agents/levnow"
