@@ -34,7 +34,7 @@
       "name": "Constraint Engineering",
       "description": "The core philosophy. Constraints as product, not afterthought. Genesis pattern. Gate ratchet.",
       "articleCount": 5,
-      "manifestoStatus": "DONE — ~/.agents/levnow/constraint-engineering-consumer-manifesto.json"
+      "manifestoStatus": "DONE — .lev/now/constraint-engineering-consumer-manifesto.json"
     },
     {
       "id": "dna-driven-dev",

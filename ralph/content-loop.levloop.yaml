@@ -14,7 +14,7 @@ tick_types:
     prompt_template: |
       Create a manifesto /now page for theme [{theme}].
       Read the source docs listed in the PRD theme entry.
-      Generate a RenderSpec JSON at ~/.agents/levnow/{slug}.json.
+      Generate a RenderSpec JSON at .lev/now/{slug}.json.
       Render with: npx tsx plugins/lev-now/src/cli.ts {json} --output {html}
       DONE when: file exists, elements > 30, key quotes from source docs present.
 
@@ -113,7 +113,7 @@ execution:
 
 # --- Knobs ---
 knobs:
-  source_dir: "~/.agents/levnow"
+  source_dir: ".lev/now"
   content_dir: "content/"
   prd_path: "content/ralph/prd.json"
-  manifesto_dir: "~/.agents/levnow"
+  manifesto_dir: ".lev/now"
