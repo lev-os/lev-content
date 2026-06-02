@@ -266,7 +266,7 @@ BUILDER:
    → Found: 
      - core/config/cache.ts (config caching)
      - workshop/poc/redis-cache/ (POC)
-     - docs/adr/ADR-045-caching.md (decision)
+     - docs/decisions/ADR-045-caching.md (decision)
    
 2. REPORT:
    "Caching exists in 3 places:

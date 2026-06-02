@@ -121,7 +121,7 @@ When work diverges from north star:
 - git log --since="14 days" (recent work)
 - bd list --open (active issues)
 - bd list --closed --since 14d (recent completions)
-- docs/adr/*.md (recent decisions)
+- docs/decisions/*.md (recent public decisions)
 - skills/ (what capabilities exist)
 - Recent session handoffs
 ```
