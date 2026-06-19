@@ -71,7 +71,7 @@ plugins/platforms/                 # ships-with: true
 │   │   ├── claude-code.ts
 │   │   ├── cursor.ts
 │   │   ├── windsurf.ts
-│   │   ├── codex.ts, cline.ts, opencode.ts, gemini.ts, antigravity.ts
+│   │   ├── codex.ts, cline.ts, opencode.ts, antigravity.ts
 │   │   ├── github-copilot.ts, roo.ts, auggie.ts, crush.ts
 │   │   ├── trae.ts, iflow.ts, kilo.ts, kiro-cli.ts, qwen.ts, rovo-dev.ts
 │   │   └── (future: any new coding tool)
@@ -194,7 +194,6 @@ research:
 | claude-code | node:22-alpine   | npm i -g @anthropic-ai/claude-code | claude --help    |
 | codex       | node:22-alpine   | npm i -g @openai/codex             | codex --version  |
 | crush       | golang:1.22      | go install                         | crush --help     |
-| gemini      | node:22-alpine   | npm i -g @google/gemini-cli        | gemini --version |
 | aider       | python:3.12-slim | pip install aider-chat             | aider --help     |
 | auggie      | node:22-alpine   | npm i -g @augmentcode/auggie       | auggie --help    |
 
@@ -738,7 +737,6 @@ plugins/platforms/                 # ships-with: true
 │   │   ├── codex.ts
 │   │   ├── cline.ts
 │   │   ├── opencode.ts
-│   │   ├── gemini.ts
 │   │   ├── antigravity.ts
 │   │   ├── github-copilot.ts
 │   │   ├── roo.ts
